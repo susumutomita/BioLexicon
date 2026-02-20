@@ -6,8 +6,8 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      '/api': 'http://api:3000',
-      '/health': 'http://api:3000',
+      '/api': process.env.API_PROXY_TARGET || 'http://api:3000',
+      '/health': process.env.API_PROXY_TARGET || 'http://api:3000',
     },
   },
 });

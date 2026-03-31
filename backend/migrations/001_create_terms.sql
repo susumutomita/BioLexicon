@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS terms (
   id SERIAL PRIMARY KEY,
-  name TEXT NOT NULL,
+  name TEXT NOT NULL UNIQUE,
   name_ja TEXT NOT NULL,
   engineer_analogy TEXT NOT NULL,
   formal_definition TEXT NOT NULL,

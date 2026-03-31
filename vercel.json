@@ -1,9 +1,10 @@
 {
   "installCommand": "cd backend && npm install && cd ../frontend && npm install",
-  "buildCommand": "cd frontend && npm run build",
+  "buildCommand": "cd backend && npx tsx src/db/migrate.ts && npx tsx src/db/seed.ts && cd ../frontend && npm run build",
   "outputDirectory": "frontend/dist",
   "rewrites": [
     { "source": "/health", "destination": "/api" },
-    { "source": "/api/:path*", "destination": "/api" }
+    { "source": "/api/:path*", "destination": "/api" },
+    { "source": "/((?!api|health|assets).*)", "destination": "/index.html" }
   ]
 }

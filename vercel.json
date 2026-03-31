@@ -1,5 +1,5 @@
 {
-  "installCommand": "cd backend && npm install && cd ../frontend && npm install",
+  "installCommand": "npm install && cd backend && npm install && cd ../frontend && npm install",
   "buildCommand": "cd backend && npx tsx src/db/migrate.ts && npx tsx src/db/seed.ts && cd ../frontend && npm run build",
   "outputDirectory": "frontend/dist",
   "rewrites": [

@@ -2,7 +2,9 @@ import pg from 'pg';
 
 const { Pool } = pg;
 
-const connectionString = process.env.DATABASE_URL || 'postgres://biolexicon:biolexicon@localhost:5432/biolexicon';
+// Strip channel_binding param which is unsupported by node-pg
+const rawUrl = process.env.DATABASE_URL || 'postgres://biolexicon:biolexicon@localhost:5432/biolexicon';
+const connectionString = rawUrl.replace(/[&?]channel_binding=[^&]*/g, '');
 const isLocal = connectionString.includes('localhost') || connectionString.includes('127.0.0.1');
 
 export const pool = new Pool({

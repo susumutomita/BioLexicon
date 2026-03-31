@@ -5,6 +5,21 @@ import { SearchBar } from '../components/SearchBar';
 import { searchTerms, Term } from '../api/terms';
 import { contextLookup, ContextMatch } from '../api/context';
 
+const EXAMPLE_TERMS = [
+  { q: 'DNA', lang: 'en' },
+  { q: 'cell membrane', lang: 'en' },
+  { q: 'ribosome', lang: 'en' },
+  { q: 'mitochondria', lang: 'en' },
+  { q: 'apoptosis', lang: 'en' },
+  { q: 'transcription', lang: 'en' },
+  { q: 'enzyme', lang: 'en' },
+  { q: 'genome', lang: 'en' },
+  { q: '細胞', lang: 'ja' },
+  { q: '遺伝子', lang: 'ja' },
+  { q: '免疫', lang: 'ja' },
+  { q: 'タンパク質', lang: 'ja' },
+];
+
 export function Home() {
   const [results, setResults] = useState<Term[]>([]);
   const [loading, setLoading] = useState(false);
@@ -27,6 +42,10 @@ export function Home() {
     }
   };
 
+  const handleExampleClick = (q: string, lang: string) => {
+    handleSearch(q, lang);
+  };
+
   const handleContextLookup = async () => {
     if (!contextText.trim()) return;
     setContextLoading(true);
@@ -47,6 +66,29 @@ export function Home() {
       <p style={{ color: '#666', marginBottom: 24 }}>Biology term dictionary for software engineers</p>
 
       <SearchBar onSearch={handleSearch} loading={loading} />
+
+      {!searched && (
+        <div style={{ marginBottom: 32 }}>
+          <p style={{ color: '#888', fontSize: 14, marginBottom: 12 }}>Try searching for:</p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {EXAMPLE_TERMS.map((ex) => (
+              <button
+                key={ex.q}
+                onClick={() => handleExampleClick(ex.q, ex.lang)}
+                style={{
+                  padding: '6px 14px', background: '#f5f5f5', border: '1px solid #e0e0e0',
+                  borderRadius: 20, cursor: 'pointer', fontSize: 13, color: '#444',
+                  transition: 'background 0.15s',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = '#e8f4fd'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = '#f5f5f5'; }}
+              >
+                {ex.q}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {searched && results.length === 0 && !loading && (
         <p style={{ color: '#888' }}>No terms found. Try a different search query.</p>
@@ -71,7 +113,7 @@ export function Home() {
         value={contextText}
         onChange={(e) => setContextText(e.target.value)}
         rows={6}
-        style={{ width: '100%', padding: 8, fontSize: 14, border: '1px solid #ccc', borderRadius: 4, resize: 'vertical' }}
+        style={{ width: '100%', padding: 8, fontSize: 14, border: '1px solid #ccc', borderRadius: 4, resize: 'vertical', boxSizing: 'border-box' }}
         placeholder="Paste text from a biology paper..."
       />
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 8 }}>
